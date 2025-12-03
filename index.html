@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeckLab - Clash Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['"Clash Display"', 'sans-serif'],
+            },
+            colors: {
+              // New Clash Palette
+              clash: {
+                blue: '#0057D9',      // Royal Blue (Buttons/Accents)
+                blueDark: '#003c9e',  // Button Shadow
+                gold: '#F4C542',      // Gold (Borders/Highlights)
+                goldDim: '#d4a017',   // Gold Shadow
+                wood: '#8B5E3C',      // Wood (Panels)
+                woodDark: '#5e3a1f',  // Wood Shadow
+                stone: '#2E2E2E',     // Dark Stone (Backgrounds)
+                stoneLight: '#4a4a4a',// Light Stone (Inputs)
+                parchment: '#D3C4A8', // Parchment (Text areas)
+                purple: '#7D3CE8',    // Epic/Evo
+                purpleDark: '#561ea8' // Purple Shadow
+              },
+              // Keeping functional semantic names mapping to new palette
+              background: '#1a1a1a', 
+              surface: '#2E2E2E',
+              surfaceHighlight: '#3E3E3E',
+              primary: '#0057D9',
+              primaryHover: '#3378ff',
+              evolution: '#d946ef', 
+              text: {
+                main: '#ffffff',
+                muted: '#a3a3a3',
+                dark: '#000000'
+              },
+              rarity: {
+                common: '#60a5fa',   
+                rare: '#fb923c',     
+                epic: '#c084fc',     
+                legendary: '#22d3ee',
+                champion: '#facc15' 
+              }
+            },
+            boxShadow: {
+              'clash-btn': '0px 4px 0px 0px rgba(0,0,0,0.4)',
+              'clash-card': '0px 6px 0px 0px rgba(0,0,0,0.5)',
+              'clash-inset': 'inset 0px 4px 8px rgba(0,0,0,0.5)',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.3s ease-out',
+              'slide-up': 'slideUp 0.4s ease-out',
+              'bounce-sm': 'bounceSm 2s infinite',
+              'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              bounceSm: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-5px)' },
+              },
+              pulseGlow: {
+                '0%, 100%': { opacity: '1', filter: 'brightness(1.2)' },
+                '50%': { opacity: '.7', filter: 'brightness(1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #1a1a1a;
+        background-image: 
+          radial-gradient(circle at 50% 0%, #2E2E2E 0%, #1a1a1a 80%),
+          url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        color: #f4f4f5;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      /* Medieval Scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #1a1a1a;
+        border-left: 2px solid #000;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #5e3a1f; /* Wood Dark */
+        border: 2px solid #8B5E3C; /* Wood Light */
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #8B5E3C;
+      }
+      
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+
+      /* Clash Button Press Effect */
+      .clash-btn:active {
+        transform: translateY(4px);
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.4);
+      }
+      
+      /* Text Shadow for "Pop" */
+      .text-shadow-sm { text-shadow: 1px 1px 0 #000; }
+      .text-shadow-md { text-shadow: 2px 2px 0 #000; }
+      .text-shadow-lg { text-shadow: 3px 3px 0 #000; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
